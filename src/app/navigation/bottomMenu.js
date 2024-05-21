@@ -9,39 +9,48 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AddIcon from '@mui/icons-material/Add';
 import Divider from '@mui/material/Divider';
 import { Link } from "expo-router"
+import { Avatar } from "@mui/material";
+import AddActivity from "../pages/addActivity";
+
 
 export default function BottomMenu() {
 
     const [value, setValue] = useState(0)
-    const [toggle, setToggle] = useState(false)
+    const [state, setModal] = useState(false)
 
-    const openAddActivity = () => {
-        setToggle(true)
+    const toggle = () =>{
+        setModal(prevState => !prevState)
     }
 
     return (
+        <>
         <View style={style.container}>
-        <Divider />    
-        <BottomNavigation
-            showLabels
-            value={value}
-            onChange={(event, newValue) => {
-                setValue(newValue);
-            }}
-        >
-            <BottomNavigationAction icon={<Link href="/pages/home"><HomeIcon fontSize="large"/></Link>} />
-            <BottomNavigationAction icon={<Link href="/pages/addActivity"><AddIcon /></Link>}/>
-            <BottomNavigationAction icon={<PersonAddIcon />} />
-            <BottomNavigationAction icon={<AccountCircleIcon />} />
-        </BottomNavigation>
+            <Divider />
+            <BottomNavigation
+
+                value={value}
+                onChange={(event, newValue) => {
+                    setValue(newValue);
+                }}
+            >
+                <BottomNavigationAction icon={<Link href="/pages/home"><HomeIcon fontSize="large" /></Link>} />
+                {/* <BottomNavigationAction icon={<Link href="/pages/addActivity"><AddIcon /></Link>}/> */}
+                <BottomNavigationAction icon={<AddIcon onClick={toggle} />} />
+                <BottomNavigationAction icon={<PersonAddIcon />} />
+                <BottomNavigationAction icon={<Avatar alt="Remy Sharp" src="src/app/assets/H.png" />} />
+            </BottomNavigation>
         </View>
+        
+        {state && <AddActivity state={state} setModal={setModal} /> }
+
+    </>
     )
 }
 
 const style = StyleSheet.create({
-    container:{
-        position : 'absolute',
-        bottom : 0,
+    container: {
+        position: 'absolute',
+        bottom: 0,
         left: 0,
         right: 0
     }

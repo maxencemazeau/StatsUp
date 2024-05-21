@@ -1,25 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
-import { Button } from '@mui/material';
-
+import Grid from '@mui/material/Grid';
+import { Button, Typography } from '@mui/material';
+import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins'
+import { Navigation } from '../pages/home'
+import { useSelector, useDispatch } from 'react-redux';
+import { homeNavigation } from '../reduxState/navigation/navigationSlice';
 
 export default function HomeNavigation({}) {
 
-    const [active, setActive] = useState("ACTIVITY")
+    const active = useSelector((state) => state.navigation.value) 
+    const dispatch = useDispatch()
 
-    const changeActive = (number) => {
-        if(number == 1) {
-            setActive("ACTIVITY")
-        } else{
-            setActive("GOALS")
-        }
-    }
+    const [fontsLoad] = useFonts({
+        Poppins_400Regular, Poppins_700Bold,
+    })
 
     return (
-        <Stack direction="row" spacing={{ xs: 4, sm: 8, md: 8 }} sx={{ paddingRight: 3, paddingLeft: 3, paddingBottom: 3 }}>
-                <Chip label="ACTIVITY" color={active === 'ACTIVITY' ? 'warning' : 'primary'} sx={{ width: "45%", fontWeight: "bold" }} onClick={() => changeActive(1)} />
-                <Chip label="GOALS" color={active === 'GOALS' ? 'warning' : 'primary'} sx={{ width: "45%", fontWeight: "bold" }} onClick={() => changeActive(2)} />
-        </Stack>
+        <Grid container sx={{ paddingRight :3, paddingLeft : 3 }}>
+            <Grid item xs={6}>
+                <Typography sx={{ fontWeight: "bold", textAlign:"center", 
+                color :active === 'ACTIVITY' ? '#DD7A34' : 'black', fontFamily:'Poppins_400Regular', textDecorationLine: active === 'ACTIVITY' ? "underline": "none" }} 
+                onClick={() => dispatch(homeNavigation("ACTIVITY"))}>ACTIVITY</Typography>
+            </Grid>
+            <Grid item xs={6}>
+                <Typography sx={{ fontWeight: "bold", textAlign:"center", 
+                color : active === 'GOALS' ? '#DD7A34' : 'black', fontFamily:'Poppins_400Regular', textDecorationLine: active === 'GOALS' ? "underline": "none"}} 
+                onClick={() => dispatch(homeNavigation("GOALS"))}>GOALS</Typography>
+            </Grid>
+        </Grid>
     )
 }
