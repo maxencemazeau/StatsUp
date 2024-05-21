@@ -11,9 +11,9 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Checkbox from "@mui/material/Checkbox"
 import Select from "@mui/material/Select"; import MenuItem from "@mui/material/MenuItem"
 import InputLabel from "@mui/material/InputLabel"; import FormControl from "@mui/material/FormControl"
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
-export default function AddActivity() {
-    const [value, setValue] = useState(0)
+export default function AddActivity({state, setModal}) {
 
     const goal = [
         {
@@ -25,10 +25,22 @@ export default function AddActivity() {
             name:"2"
         }
     ]
-        
+    
+    const toggleDrawer = (anchor, open) => (event) => {
+        if (
+            event &&
+            event.type === 'keydown' &&
+            (event.key === 'Tab' || event.key === 'Shift')
+        ) {
+            return;
+        }
+
+        setModal(open);
+    };
 
 
     const [activateGoal, setActivateGoal] = useState(false)
+    const [goalName, setGoalName] = useState(false)
     const [timerOption, setTimerOption] = useState(false)
 
     const changeActive = () => {
@@ -42,6 +54,11 @@ export default function AddActivity() {
 
     const handleChange = (event) => {
         setAge(event.target.value);
+        if (event.target.value == 0) {
+            setGoalName(true)
+        } else {
+            setGoalName(false)
+        }
     }
 
     const [fontsLoad] = useFonts({
@@ -51,9 +68,15 @@ export default function AddActivity() {
     return (
         <>
             <ScrollView>
+            <SwipeableDrawer
+        anchor={'bottom'}
+        open={state}
+        onClose={toggleDrawer('bottom', false)}
+        onOpen={toggleDrawer('bottom', true)}
+    >
                 <Container sx={{ padding: 3 }}>
                     <Stack>
-                        <ArrowBackIcon sx={{ paddingBottom: 3 }} />
+                        <ArrowBackIcon sx={{ paddingBottom: 3 }} onClick={toggleDrawer('bottom', false)}/>
                         <Typography variant="h6" sx={{ fontFamily: "Poppins_700Bold" }}>Create a new activity</Typography>
                         <TextField id="outlined-basic" label="Name" color={"warning"} variant="outlined" margin="normal" />
                         <Grid direction={"row"} container sx={{ paddingTop: 1 }}>
@@ -82,14 +105,15 @@ export default function AddActivity() {
                                 color={"warning"}
                                 onChange={handleChange}
                             >
-                                <MenuItem value={"New Goal"}>New goal</MenuItem>
+                                <MenuItem value={0}>New goal</MenuItem>
                                 <Divider/>
                                 {goal.map(goals => 
                                  <MenuItem key={goals.id} value={goals.name}>{goals.name}</MenuItem>
                                 )}
                             </Select>
                         </FormControl>
-                        <Grid container spacing={2}>
+                        {goalName && <TextField id="outlined-basic" label="Name" color={"warning"} variant="outlined" margin="normal" /> }
+                        <Grid container spacing={3}>
                             <Grid item xs={6}>
                                 <TextField id="outlined-basic" label="Time frame" variant="outlined" color={"warning"} margin="normal" />
                             </Grid>
@@ -99,9 +123,10 @@ export default function AddActivity() {
                         </Grid>
                         </>
                         }
-                        <Button variant={"contained"} sx={{ bgcolor: "#DD7A34", marginTop: 1 }} disableElevation>Save</Button>
+                        <Button variant={"contained"} sx={{ bgcolor: "#DD7A34", marginTop: 1 }} color={"warning"} disableElevation>Save</Button>
                     </Stack>
                 </Container>
+                </SwipeableDrawer>
             </ScrollView>
             <BottomMenu />
         </>

@@ -11,7 +11,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 export default function GoalCard() {
 
     return (
-        <Container maxWidth="md" sx={{ paddingRight: 3, paddingLeft: 3, paddingtop: 1 }}>
+        <Container maxWidth="md" sx={{ paddingRight: 3, paddingLeft: 3, paddingTop: 3 }}>
             <Card variant="outlined" sx={{ marginBottom: 3, borderRadius: 4 }}>
                 <CardContent>
                     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ marginTop: 0.5 }}>

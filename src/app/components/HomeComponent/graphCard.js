@@ -5,28 +5,30 @@ import Container from "@mui/material/Container"
 import Divider from '@mui/material/Divider';
 import { Typography, Button } from "@mui/material";
 import Grid from "@mui/material/Grid"
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { LineChart } from '@mui/x-charts/LineChart';
+import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins'
 
 
 export default function GraphCard() {
 
+    const [fontsLoad] = useFonts({
+        Poppins_400Regular, Poppins_700Bold,
+    })
+
     return (
         <Container maxWidth="md" sx={{ paddingTop: 3, paddingRight: 3, paddingLeft: 3, paddingBottom: 0 }}>
-            <Card variant="outlined" sx={{ marginBottom: 3, borderRadius: 4, height: 200 }} sm={{ height: 400 }}>
-                <LineChart
-                    xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
-                    series={[
-                        {
-                            data: [2, 5.5, 2, 8.5, 1.5, 5],
-                            area: true,
-                            color: '#FF9505'
-                        },
-                    ]}
-                    witdh={150}
-                />
-            </Card>
+            <Grid container spacing={2}>
+                <Grid item xs={6}>
+                    <Card variant="outlined" sx={{ marginBottom: 3, borderRadius: 4, height: 150 }} sm={{ height: 200 }}>
+                        <Typography sx={{paddingLeft:2, paddingTop:2, fontFamily:"Poppins_700Bold", fontSize:48 ,color : "#DD7A34"}}>46</Typography>
+                        <Typography sx={{paddingLeft:2, fontFamily:"Poppins_700Bold", fontSize:18}}>Total activity</Typography>
+                        <Typography sx={{paddingLeft:2, fontFamily:"Poppins_700Bold", fontSize:18}}>completed</Typography>
+                    </Card>
+                </Grid>
+                <Grid item xs={6}>
+                    <Card variant="outlined" sx={{ marginBottom: 3, borderRadius: 4, height: 150 }} sm={{ height: 200 }}>
+                    </Card>
+                </Grid>
+            </Grid>
         </Container>
     )
-
 }
