@@ -3,9 +3,8 @@ import { View, StyleSheet } from "react-native"
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import HomeIcon from "@mui/icons-material/Home";
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import Divider from '@mui/material/Divider';
 import { Link } from "expo-router"
@@ -33,10 +32,10 @@ export default function BottomMenu() {
                     setValue(newValue);
                 }}
             >
-                <BottomNavigationAction icon={<Link href="/pages/home"><HomeIcon fontSize="large" /></Link>} />
+                <BottomNavigationAction icon={<Link href="/"><HomeIcon fontSize="large" /></Link>} />
                 {/* <BottomNavigationAction icon={<Link href="/pages/addActivity"><AddIcon /></Link>}/> */}
                 <BottomNavigationAction icon={<AddIcon onClick={toggle} />} />
-                <BottomNavigationAction icon={<PersonAddIcon />} />
+                <BottomNavigationAction icon={<SearchIcon />} />
                 <BottomNavigationAction icon={<Avatar alt="Remy Sharp" src="src/app/assets/H.png" />} />
             </BottomNavigation>
         </View>
