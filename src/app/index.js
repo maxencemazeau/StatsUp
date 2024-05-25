@@ -1,29 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
+import React from "react"
 import { StyleSheet, Text, View } from 'react-native';
-import { Link } from "expo-router"
-import { Button } from '@mui/material';
-import BottomMenu from './navigation/bottomMenu';
+import Home from './pages/home';
+import { Provider } from "react-redux"
+import { store } from "../app/reduxState/store"
 
 export default function App() {
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-      <Link href="/pages/home">
-        <Button variant="contained">
-        Home
-        </Button>
-      </Link>
-        <BottomMenu />
-    </View>
+    <Provider store={store}>
+      <Home />
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
