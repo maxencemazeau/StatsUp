@@ -1,89 +1,190 @@
 import React, { useState } from "react"
-import { ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { Link } from "expo-router"
 import BottomMenu from "../navigation/bottomMenu"
-import { Container, Grid, Card, Typography, Box } from "@mui/material"
+import { Container, Grid, Card, Typography, Box, FormControl, FormGroup, FormControlLabel, InputLabel, Select, MenuItem, Checkbox, TextField, Button } from "@mui/material"
 import { LineChart } from '@mui/x-charts/LineChart';
 import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';//import { useNavigationContext } from "../../hooks/useNavigationContext";
 
 export default function ActivityDetail({ lastPage }) {
 
-    const [period, setPeriod] = useState("WEEKLY")
+    const [selectedChartPeriod, setSelectedChartPeriod] = useState(1)
+    const [activityTimer, setActivityTimer] = useState(false)
+    const [goalPeriod, setGoalPeriod] = useState([{id:1,periodName:"Daily", checked:false},{id:2,periodName:"Weekly",checked:false},{id:3,periodName:"Monthly",checked:false}])
 
+    const period = [{
+        id: 1,
+        value: "This week"
+    },
+    {
+        id: 2,
+        value: "This month"
+    },
+    {
+        id: 3,
+        value: "This year"
+    },
+    {
+        id: 4,
+        value: "Last 3 Month"
+    },
+    {
+        id: 5,
+        value: "Last 6 Month"
+    },
+    {
+        id: 6,
+        value: "All time"
+    },
+    ]
     const [fontsLoad] = useFonts({
         Poppins_400Regular, Poppins_700Bold,
     })
 
-    const changePeriod = (number) => {
+    const changeChartPeriod = (event) => {
+        setSelectedChartPeriod(event.target.value)
+    }
 
-        switch (number) {
-            case 1:
-                setPeriod("WEEKLY")
-                break;
-            case 2:
-                setPeriod("MONTLHY")
-                break;
-            case 3:
-                setPeriod("YEARLY")
-                break;
-        }
+    const changeActivityTimer = () => {
+        setActivityTimer(prevState => !prevState)
+    }
+
+    const changeGoalPeriod = (id) => {
+        setGoalPeriod(prevGoalPeriods => prevGoalPeriods.map(goals => goals.id === id ? 
+            {...goals, checked: !goals.checked}
+            : {...goals, checked: false}
+        ))
     }
 
     return (
         <>
-            <ScrollView>
-                <Container sx={{ height: "100%", bgcolor: "#222121", padding: 0 }}>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', padding: 3, gap: 2 }}>
-                        <Link href={{ pathname: lastPage }}>
-                            <ArrowBackIcon sx={{ color: "white" }} />
-                        </Link>
-                        <Typography sx={{
-                            padding: 0, color: "white",
-                            fontWeight: "bold",
-                            fontFamily: 'Poppins_400Regular', fontSize: 20}}>ACTIVITY NAME</Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, paddingLeft: 3 }}>
-                        <Typography sx={{
-                            textAlign: "left",
-                            color: period === 'WEEKLY' ? '#DD7A34' : 'white', fontFamily: 'Poppins_400Regular', textDecorationLine: period === 'WEEKLY' ? "underline" : "none"
-                        }} onClick={() => changePeriod(1)}>WEEKLY</Typography>
-                        <Typography sx={{
-                            textAlign: "left",
-                            color: period === 'MONTLHY' ? '#DD7A34' : 'white', fontFamily: 'Poppins_400Regular', textDecorationLine: period === 'MONTLHY' ? "underline" : "none"
-                        }} onClick={() => changePeriod(2)}>MONTLHY</Typography>
-                        <Typography sx={{
-                            textAlign: "left",
-                            color: period === 'YEARLY' ? '#DD7A34' : 'white', fontFamily: 'Poppins_400Regular', textDecorationLine: period === 'YEARLY' ? "underline" : "none"
-                        }}
-                            onClick={() => changePeriod(3)}>YEARLY</Typography>
-                    </Box>
-                    <LineChart
-                        xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
-                        series={[
-                            {
-                                data: [2, 5.5, 2, 8.5, 1.5, 5],
-                                color : "#DD7A34"
-                            },
-                        ]}
-                        sx={{stroke: "white"}}
-                        width={400}
-                        height={300}
-                        fill={"white"}
-                    />
-                </Container>
-                <Container sx={{ position: "absolute", top: "98%", left: 0, right: 0, height: "45%", bgcolor: "white", padding: 0, borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
-                    <Grid container spacing={2} sx={{ padding: 3 }}>
-                        <Grid item xs={6}>
-                            <Card variant="outlined" sx={{ marginBottom: 3, borderRadius: 4, height: 150 }} sm={{ height: 200 }}>
-                                <Typography sx={{ paddingLeft: 2, paddingTop: 2, fontFamily: "Poppins_700Bold", fontSize: 48, color: "#DD7A34" }}>46</Typography>
-                                <Typography sx={{ paddingLeft: 2, fontFamily: "Poppins_700Bold", fontSize: 18 }}>Total activity</Typography>
-                                <Typography sx={{ paddingLeft: 2, fontFamily: "Poppins_700Bold", fontSize: 18 }}>completed</Typography>
-                            </Card>
-                        </Grid>
-                    </Grid>
-                </Container>
-            </ScrollView >
+            <View style={{ height: "90%" }}>
+                <ScrollView>
+                    <Container sx={{ height: "100%", bgcolor: "#222121", padding: 0 }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', padding: 2, gap: 2 }}>
+                            <Link href={{ pathname: lastPage }}>
+                                <ArrowBackIcon sx={{ color: "white" }} />
+                            </Link>
+                            <Typography sx={{
+                                padding: 0, color: "white",
+                                fontWeight: "bold",
+                                fontFamily: 'Poppins_400Regular', fontSize: 20
+                            }}>ACTIVITY NAME</Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, paddingLeft: 2 }}>
+                            <FormControl sx={{ width: 150, borderColor: "white" }}>
+                                <InputLabel id="demo-simple-select-label" sx={{ color: "white", '&.Mui-focused': { color: "white" } }}>Period</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={selectedChartPeriod}
+                                    label="Period"
+                                    onChange={changeChartPeriod}
+                                    sx={{
+                                        color: "white",
+                                        '.MuiOutlinedInput-notchedOutline': {
+                                            borderColor: 'white',
+                                        },
+                                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                            borderColor: '#DD7A34',
+                                        },
+                                        '&:hover .MuiOutlinedInput-notchedOutline': {
+                                            borderColor: '#DD7A34',
+                                        },
+                                        '.MuiSvgIcon-root ': {
+                                            fill: "white !important",
+                                        }
+                                    }}
+                                >
+                                    {period.map(periods => (
+                                        <MenuItem key={periods.id} value={periods.id}>{periods.value}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Box>
+                        <LineChart
+                            xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
+                            series={[
+                                {
+                                    data: [2, 5.5, 2, 8.5, 1.5, 5],
+                                    color: "#DD7A34"
+                                },
+                            ]}
+                            sx={{ stroke: "white", witdh: "100%" }}
+                            height={250}
+                            fill={"white"}
+                        />
+                    </Container>
+                    <Container sx={{ position: "absolute", top: "98%", left: 0, right: 0, height: "45%", bgcolor: "white", padding: 0, borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
+                        <Container sx={{ padding: 2 }}>
+                            <Box sx={{
+                                display: 'flex', flexDirection: 'row', alignItems: 'center', alignContent: "center",
+                                justifyContent: "space-around", gap: 2, border: 1, borderRadius: 4, borderColor: "lightgrey", padding: 1
+                            }}>
+                                <Box>
+                                    <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 16 }}>Total</Typography>
+                                    <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 18, color: "#DD7A34" }}>46</Typography>
+                                </Box>
+                                <Box>
+                                    <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 16 }}>Best Streak</Typography>
+                                    <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 18, color: "#DD7A34" }}>46</Typography>
+                                </Box>
+                                <Box>
+                                    <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 16 }}>Goal</Typography>
+                                    <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 18, color: "#DD7A34" }}>5/10</Typography>
+                                </Box>
+                                {activityTimer &&
+                                <Box>
+                                    <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 16 }}>Timer</Typography>
+                                    <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 18, color: "#DD7A34" }}>100h</Typography>
+                                </Box>
+                                 }
+                            </Box>
+                        </Container>
+                        <Container sx={{ paddingLeft: 2, paddingRight: 2 }}>
+                            <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 18, paddingBottom: 1 }}>Details</Typography>
+                            <Box sx={{
+                                display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, marginBottom: 1
+                            }}>
+                                <TextField id="outlined-basic" label="Activity Name" color={"warning"} variant="outlined" margin="normal" />
+                                <TextField id="outlined-basic" label="Goal Name" color={"warning"} variant="outlined" margin="normal" />
+                            </Box>
+                            <Box sx={{
+                                display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, marginBottom: 1
+                            }}>
+                                <Typography sx={{ fontFamily: "Poppins_400Regular", fontSize: 14 }}>Add timer ?</Typography>
+                                <Checkbox sx={{
+                                    '&.Mui-checked': {color: "#DD7A34",},}} onChange={changeActivityTimer}/>
+                             </Box>   
+                            <Box sx={{
+                                display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, marginBottom: 1
+                            }}>
+
+                                <Typography sx={{ fontFamily: "Poppins_400Regular", fontSize: 14 }}>Frequency</Typography>
+                                <TextField
+                                    id="outlined-number"
+                                    type="number"
+                                    label="Number"
+                                    size="small"
+                                    color={"warning"} variant="outlined"
+                                    sx={{ width: 100 }}
+                                />
+                            </Box>
+                            <FormGroup sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
+                                {goalPeriod.map(goalPeriods => (
+                                    <FormControlLabel control={<Checkbox sx={{
+                                        '&.Mui-checked': {
+                                            color: "#DD7A34",
+                                        },
+                                    }} />} key={goalPeriods.id} label={goalPeriods.periodName} checked={goalPeriods.checked} onChange={() => changeGoalPeriod(goalPeriods.id)}/>
+                                ))}
+                            </FormGroup>
+                            <Button variant={"contained"} sx={{ bgcolor: "#DD7A34", marginTop: 1, width: "100%" }} color={"warning"} disableElevation>Save</Button>
+                        </Container>
+                    </Container>
+                </ScrollView >
+            </View>
             <BottomMenu />
         </>
     )
