@@ -1,14 +1,15 @@
 import React, { useState } from "react"
 import { View, ScrollView } from 'react-native';
-import { Link } from "expo-router"
-import BottomMenu from "../navigation/bottomMenu"
+import { Link, useLocalSearchParams } from "expo-router"
+import BottomMenu from "../../navigation/bottomMenu"
 import { Container, Grid, Card, Typography, Box, FormControl, FormGroup, FormControlLabel, InputLabel, Select, MenuItem, Checkbox, TextField, Button } from "@mui/material"
 import { LineChart } from '@mui/x-charts/LineChart';
 import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';//import { useNavigationContext } from "../../hooks/useNavigationContext";
 
-export default function ActivityDetail({ lastPage }) {
+export default function ActivityDetail() {
 
+    const { lastPage } = useLocalSearchParams();
     const [selectedChartPeriod, setSelectedChartPeriod] = useState(1)
     const [activityTimer, setActivityTimer] = useState(false)
     const [goalPeriod, setGoalPeriod] = useState([{id:1,periodName:"Daily", checked:false},{id:2,periodName:"Weekly",checked:false},{id:3,periodName:"Monthly",checked:false}])
@@ -180,7 +181,8 @@ export default function ActivityDetail({ lastPage }) {
                                     }} />} key={goalPeriods.id} label={goalPeriods.periodName} checked={goalPeriods.checked} onChange={() => changeGoalPeriod(goalPeriods.id)}/>
                                 ))}
                             </FormGroup>
-                            <Button variant={"contained"} sx={{ bgcolor: "#DD7A34", marginTop: 1, width: "100%" }} color={"warning"} disableElevation>Save</Button>
+                            <Button variant={"contained"} sx={{ bgcolor: "#DD7A34", marginTop: 1, width: "100%", height:50, fontSize:16,  fontFamily: "Poppins_400Regular"}} 
+                            color={"warning"} disableElevation>Save</Button>
                         </Container>
                     </Container>
                 </ScrollView >

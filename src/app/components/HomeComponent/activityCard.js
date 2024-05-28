@@ -39,7 +39,7 @@ export default function ActivityCard() {
                             <Typography variant="body1" sx={{ marginTop: 1, fontFamily:'Poppins_400Regular' }} gutterBottom>asdsasd</Typography>
                         </Grid>
                         <Grid item xs={2} sm={1}>
-                            <Link href={{ pathname: "/pages/activityDetail", params: { lastPage:"/pages/home"} }}>
+                            <Link href={{ pathname: "/pages/activity/activityDetail", params: { lastPage:"/pages/home"} }}>
                                 <Button sx={{ bgcolor: "#DD7A34", borderRadius: 25, height: 50 }}>
                                     <ArrowForwardIosIcon  sx={{ color: "white" }} />
                                 </Button>

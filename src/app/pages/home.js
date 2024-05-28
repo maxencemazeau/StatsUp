@@ -5,13 +5,15 @@ import ActivityCard from "../components/HomeComponent/activityCard";
 import GraphCard from "../components/HomeComponent/graphCard"
 import HomeNavigation from "../navigation/homeNavigation";
 import ProgressBar from "../components/HomeComponent/progressBar";
+import { Provider } from "react-redux"
+import { store } from "../../app/reduxState/store"
 
 
 export default function Home() {
 
 
     return (
-        <>
+        <Provider store={store}>
             <ScrollView>
                 <GraphCard />
                 <ProgressBar />
@@ -19,6 +21,6 @@ export default function Home() {
                 <ActivityCard />
             </ScrollView>
             <BottomMenu />
-        </>
+        </Provider>
     )
 }
