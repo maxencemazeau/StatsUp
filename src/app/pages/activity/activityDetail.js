@@ -5,7 +5,7 @@ import BottomMenu from "../../navigation/bottomMenu"
 import { Container, Grid, Card, Typography, Box, FormControl, FormGroup, FormControlLabel, InputLabel, Select, MenuItem, Checkbox, TextField, Button } from "@mui/material"
 import { LineChart } from '@mui/x-charts/LineChart';
 import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';//import { useNavigationContext } from "../../hooks/useNavigationContext";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function ActivityDetail() {
 
@@ -187,7 +187,7 @@ export default function ActivityDetail() {
                     </Container>
                 </ScrollView >
             </View>
-            <BottomMenu />
+            {/* <BottomMenu /> */}
         </>
     )
 }

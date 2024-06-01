@@ -20,8 +20,8 @@ export default function SearchBar(){
 
     return (
         <Container sx={{display:'flex', direction: "row", gap : 2, marginTop:2, alignItems:'center', padding:0}}>
-            <TextField hiddenLabel placeholder="Search username" fullWidth sx={{borderRadius:25, fontFamily:'Poppins_400Regular'}} onFocus={OnFocusSearchFocusState} onBlur={OnBlurSearchFocusState}></TextField>
-            {searchFocus && <Button sx={{fontFamily: 'Poppins_400Regular'}}>Cancel</Button>}
+            <TextField hiddenLabel placeholder="Search username" fullWidth color={'warning'} sx={{borderRadius:25, fontFamily:'Poppins_400Regular'}} onFocus={OnFocusSearchFocusState} onBlur={OnBlurSearchFocusState}></TextField>
+            {searchFocus && <Button sx={{fontFamily: 'Poppins_400Regular', color:'black'}}>Cancel</Button>}
         </Container>
     )
 }

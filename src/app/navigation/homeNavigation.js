@@ -1,9 +1,8 @@
 import React, { useState, useContext } from 'react'
 import Chip from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
-import { Button, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins'
-import { Navigation } from '../pages/home'
 import { useSelector, useDispatch } from 'react-redux';
 import { homeNavigation } from '../reduxState/navigation/navigationSlice';
 
@@ -17,7 +16,7 @@ export default function HomeNavigation({}) {
     })
 
     return (
-        <Grid container sx={{ paddingRight :3, paddingLeft : 3 }}>
+        <Grid container sx={{ paddingRight :2, paddingLeft : 2 }}>
             <Grid item xs={6}>
                 <Typography sx={{ fontWeight: "bold", textAlign:"center", 
                 color :active === 'ACTIVITY' ? '#DD7A34' : 'black', fontFamily:'Poppins_400Regular', textDecorationLine: active === 'ACTIVITY' ? "underline": "none" }} 
