@@ -5,6 +5,8 @@ import { Container, Typography, Box, FormControl, FormGroup, FormControlLabel, I
 import { LineChart } from '@mui/x-charts/LineChart';
 import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ActivityHistory from "../../components/activity/activityHistory";
+import ActivityInformation from "../../components/activity/activityInformation";
 
 export default function ActivityDetail() {
 
@@ -142,7 +144,7 @@ export default function ActivityDetail() {
                                  }
                             </Box>
                         </Container>
-                        <Container sx={{ paddingLeft: 2, paddingRight: 2 }}>
+                        {/* <Container sx={{ paddingLeft: 2, paddingRight: 2 }}>
                             <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 18, paddingBottom: 1 }}>Details</Typography>
                             <Box sx={{
                                 display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, marginBottom: 1
@@ -181,12 +183,13 @@ export default function ActivityDetail() {
                                 ))}
                             </FormGroup>
                             <Button variant={"contained"} sx={{ bgcolor: "#DD7A34", marginTop: 1, width: "100%", height:50, fontSize:16,  fontFamily: "Poppins_400Regular"}} 
-                            color={"warning"} disableElevation>Save</Button>
-                        </Container>
+                            color={"warning"} disableElevation>Save</Button> */}
+                            <ActivityInformation goalPeriod={goalPeriod} setGoalPeriod={setGoalPeriod} setActivityTimer={setActivityTimer}/>
+                            <ActivityHistory />
+                        {/* </Container> */}
                     </Container>
                 </ScrollView >
             </View>
-            {/* <BottomMenu /> */}
         </>
     )
 }

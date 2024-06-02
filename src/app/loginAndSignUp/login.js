@@ -30,7 +30,7 @@ export default function Login() {
                                 color={"warning"} disableElevation>LOGIN</Button>
                         </Link>
                         <Divider><Typography sx={{ fontFamily: "Poppins_400Regular", fontSize: 16 }}>Or create one</Typography></Divider>
-                        <Link href='/pages/signUp'>
+                        <Link href='/loginAndSignUp/signUp'>
                             <Button variant={"contained"}
                                 sx={{
                                     bgcolor: "white", marginTop: 1, width: "100%", height: 50,

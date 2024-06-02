@@ -8,7 +8,7 @@ export default function Feed(){
 
     return(
         <Container sx={{padding:2}}>
-            <Link href='/'>
+            <Link href='/pages/home/reduxHomeProvider'>
                 <ArrowBackIcon />
             </Link>
             <FeedResults/>

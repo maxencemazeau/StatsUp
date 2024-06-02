@@ -30,7 +30,7 @@ export default function BottomMenu() {
                     setValue(newValue);
                 }}
             >
-                <BottomNavigationAction icon={<Link href="/pages/home"><HomeIcon fontSize="large" /></Link>} />
+                <BottomNavigationAction icon={<Link href="/pages/home/reduxHomeProvider"><HomeIcon fontSize="large" /></Link>} />
                 <BottomNavigationAction icon={<AddIcon onClick={toggle} />} />
                 <BottomNavigationAction icon={<Link href="/pages/feed/feed"><SearchIcon/></Link>} />
                 <BottomNavigationAction icon={<Link href="/pages/profil/profil"><Image style={{ width:35, height:35, borderRadius : 100}} source={require("../assets/maxence.jpg")} /></Link>} />

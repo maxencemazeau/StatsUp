@@ -28,7 +28,7 @@ export default function signUp() {
                         <TextField id="outlined-basic" label="Username" color={"warning"} variant="outlined" margin="normal" sx={{ width: "100%" }} />
                         <TextField id="outlined-basic" label="Password" color={"warning"} variant="outlined" margin="normal" sx={{ width: "100%" }} />
                         <TextField id="outlined-basic" label="Confirm Password" color={"warning"} variant="outlined" margin="normal" sx={{ width: "100%" }} />
-                        <Link href='/pages/home'>
+                        <Link href='/pages/home/reduxHomeProvider'>
                             <Button variant={"contained"} sx={{
                                 bgcolor: "#DD7A34", marginTop: 1, width: "100%", height: 50, fontFamily: "Poppins_700Bold", marginBottom: 2,
                                 ':hover': {
@@ -37,7 +37,7 @@ export default function signUp() {
                             }} disableElevation>SIGN UP</Button>
                         </Link>
                         <Divider><Typography sx={{ fontFamily: "Poppins_400Regular", fontSize: 16 }}>Already an account ?</Typography></Divider>
-                        <Link href="/pages/login">
+                        <Link href="/loginAndSignUp/login">
                             <Button variant={"contained"}
                                 sx={{
                                     bgcolor: "white", marginTop: 1, width: "100%", height: 50,

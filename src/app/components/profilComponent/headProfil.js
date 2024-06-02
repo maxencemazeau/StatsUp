@@ -13,7 +13,7 @@ export default function HeadProfil(){
 
     return(
             <Container sx={{padding:0}}>
-                    <Link href='/pages/home'>
+                    <Link href='/pages/home/reduxHomeProvider'>
                         <ArrowBackIcon />
                     </Link>
                 <Box sx={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center', marginTop:5}}>
