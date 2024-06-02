@@ -8,7 +8,7 @@ export default function Feed(){
 
     return(
         <Container sx={{padding:2}}>
-            <Link href='/pages/home'>
+            <Link href='/'>
                 <ArrowBackIcon />
             </Link>
             <FeedResults/>

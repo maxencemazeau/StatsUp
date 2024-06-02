@@ -12,6 +12,8 @@ const navigationSlice = createSlice({
     }
 });
 
+
 export const { homeNavigation } = navigationSlice.actions;
 
 export default navigationSlice.reducer;
+

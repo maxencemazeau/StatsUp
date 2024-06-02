@@ -7,7 +7,7 @@ export default function TopHomeBar(){
 
     return(
         <Container sx={{paddingLeft:2, paddingTop :2}}>
-            <Link href="/pages/searchFriend"><PeopleAltIcon /></Link>
+            <Link href="/pages/searchFriend/searchFriend"><PeopleAltIcon /></Link>
         </Container>
     )
 }

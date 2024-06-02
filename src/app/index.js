@@ -1,12 +1,14 @@
 import React from "react"
 import Login from "./pages/login";
-import { Stack } from "expo-router";
-import Layout from "./components/layout";
+import Home from "./pages/home/home";
+import { store } from "../app/reduxState/store"
+import { Provider } from "react-redux"
+
 export default function App() {
 
   return (
-    <>
-      <Login />
-    </>
+    <Provider store={store}>
+      <Login /> 
+    </Provider>
   );
 }
