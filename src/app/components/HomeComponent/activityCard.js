@@ -30,7 +30,7 @@ export default function ActivityCard() {
     }
 
     return (
-        <Container maxWidth="md" sx={{ paddingRight: 3, paddingLeft: 3, paddingTop: 3 }}>
+        <Container maxWidth="md" sx={{ paddingRight: 2, paddingLeft: 2, paddingTop: 2 }}>
             <Card variant="outlined" sx={{ marginBottom: 3, borderRadius: 4 }}>
                 <CardContent>
                     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ marginTop: 0.5 }}>
@@ -39,7 +39,7 @@ export default function ActivityCard() {
                             <Typography variant="body1" sx={{ marginTop: 1, fontFamily:'Poppins_400Regular' }} gutterBottom>asdsasd</Typography>
                         </Grid>
                         <Grid item xs={2} sm={1}>
-                            <Link href={{ pathname: "/pages/activityDetail", params: { lastPage:"/pages/home"} }}>
+                            <Link href={{ pathname: "/pages/activity/activityDetail", params: { lastPage:"/pages/home/reduxHomeProvider"} }}>
                                 <Button sx={{ bgcolor: "#DD7A34", borderRadius: 25, height: 50 }}>
                                     <ArrowForwardIosIcon  sx={{ color: "white" }} />
                                 </Button>

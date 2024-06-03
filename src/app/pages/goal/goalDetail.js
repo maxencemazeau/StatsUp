@@ -1,14 +1,15 @@
 import React, { useState } from "react"
 import { View, ScrollView } from 'react-native';
-import { Link } from "expo-router"
-import BottomMenu from "../navigation/bottomMenu"
-import { Container, Grid, Card, Typography, Box, FormControl, FormGroup, FormControlLabel, InputLabel, Select, MenuItem, Checkbox, TextField, Button } from "@mui/material"
+import { Link, useLocalSearchParams } from "expo-router"
+import { Container, Typography, Box, FormControl, FormGroup, FormControlLabel, InputLabel, Select, MenuItem, Checkbox, TextField, Button } from "@mui/material"
 import { LineChart } from '@mui/x-charts/LineChart';
 import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';//import { useNavigationContext } from "../../hooks/useNavigationContext";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import LinkedActivity from "../../components/goalComponent/linkedActivity";
 
-export default function ActivityDetail({ lastPage }) {
+export default function GoalDetail() {
 
+    const { lastPage } = useLocalSearchParams();
     const [selectedChartPeriod, setSelectedChartPeriod] = useState(1)
     const [activityTimer, setActivityTimer] = useState(false)
     const [goalPeriod, setGoalPeriod] = useState([{id:1,periodName:"Daily", checked:false},{id:2,periodName:"Weekly",checked:false},{id:3,periodName:"Monthly",checked:false}])
@@ -70,7 +71,7 @@ export default function ActivityDetail({ lastPage }) {
                                 padding: 0, color: "white",
                                 fontWeight: "bold",
                                 fontFamily: 'Poppins_400Regular', fontSize: 20
-                            }}>ACTIVITY NAME</Typography>
+                            }}>GOAL NAME</Typography>
                         </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, paddingLeft: 2 }}>
                             <FormControl sx={{ width: 150, borderColor: "white" }}>
@@ -117,38 +118,12 @@ export default function ActivityDetail({ lastPage }) {
                         />
                     </Container>
                     <Container sx={{ position: "absolute", top: "98%", left: 0, right: 0, height: "45%", bgcolor: "white", padding: 0, borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
-                        <Container sx={{ padding: 2 }}>
-                            <Box sx={{
-                                display: 'flex', flexDirection: 'row', alignItems: 'center', alignContent: "center",
-                                justifyContent: "space-around", gap: 2, border: 1, borderRadius: 4, borderColor: "lightgrey", padding: 1
-                            }}>
-                                <Box>
-                                    <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 16 }}>Total</Typography>
-                                    <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 18, color: "#DD7A34" }}>46</Typography>
-                                </Box>
-                                <Box>
-                                    <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 16 }}>Best Streak</Typography>
-                                    <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 18, color: "#DD7A34" }}>46</Typography>
-                                </Box>
-                                <Box>
-                                    <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 16 }}>Goal</Typography>
-                                    <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 18, color: "#DD7A34" }}>5/10</Typography>
-                                </Box>
-                                {activityTimer &&
-                                <Box>
-                                    <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 16 }}>Timer</Typography>
-                                    <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 18, color: "#DD7A34" }}>100h</Typography>
-                                </Box>
-                                 }
-                            </Box>
-                        </Container>
-                        <Container sx={{ paddingLeft: 2, paddingRight: 2 }}>
-                            <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 18, paddingBottom: 1 }}>Details</Typography>
+                        <Container sx={{ paddingLeft: 2, paddingRight: 2, paddingTop: 2 }}>
+                            <Typography sx={{ fontFamily: "Poppins_700Bold", fontSize: 18 }}>Details</Typography>
                             <Box sx={{
                                 display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, marginBottom: 1
                             }}>
-                                <TextField id="outlined-basic" label="Activity Name" color={"warning"} variant="outlined" margin="normal" />
-                                <TextField id="outlined-basic" label="Goal Name" color={"warning"} variant="outlined" margin="normal" />
+                                <TextField id="outlined-basic" label="Goal Name" color={"warning"} variant="outlined" margin="normal" fullWidth />
                             </Box>
                             <Box sx={{
                                 display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, marginBottom: 1
@@ -180,12 +155,13 @@ export default function ActivityDetail({ lastPage }) {
                                     }} />} key={goalPeriods.id} label={goalPeriods.periodName} checked={goalPeriods.checked} onChange={() => changeGoalPeriod(goalPeriods.id)}/>
                                 ))}
                             </FormGroup>
-                            <Button variant={"contained"} sx={{ bgcolor: "#DD7A34", marginTop: 1, width: "100%" }} color={"warning"} disableElevation>Save</Button>
+                            <Button variant={"contained"} sx={{ bgcolor: "#DD7A34", marginTop: 1, width: "100%", height:50, fontSize:16,  fontFamily: "Poppins_400Regular"}} 
+                            color={"warning"} disableElevation>Save</Button>
                         </Container>
+                            <LinkedActivity />
                     </Container>
                 </ScrollView >
             </View>
-            <BottomMenu />
         </>
     )
 }

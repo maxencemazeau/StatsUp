@@ -15,7 +15,7 @@ export default function GraphCard() {
     })
 
     return (
-        <Container maxWidth="md" sx={{ paddingTop: 3, paddingRight: 3, paddingLeft: 3, paddingBottom: 0 }}>
+        <Container maxWidth="md" sx={{ paddingTop: 2, paddingRight: 2, paddingLeft: 2, paddingBottom: 0 }}>
             <Grid container spacing={2}>
                 <Grid item xs={6}>
                     <Card variant="outlined" sx={{ marginBottom: 3, borderRadius: 4, height: 150 }} sm={{ height: 200 }}>

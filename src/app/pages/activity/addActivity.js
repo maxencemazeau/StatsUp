@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { ScrollView } from "react-native"
-import BottomMenu from "../navigation/bottomMenu"
+import BottomMenu from "../../navigation/bottomMenu"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import Stack from "@mui/material/Stack"
