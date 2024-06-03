@@ -61,7 +61,7 @@ export default function ActivityDetail() {
 
     return (
         <>
-            <View style={{ height: "90%" }}>
+            <View style={{ height: "92%" }}>
                 <ScrollView>
                     <Container sx={{ height: "100%", bgcolor: "#222121", padding: 0 }}>
                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', padding: 2, gap: 2 }}>
