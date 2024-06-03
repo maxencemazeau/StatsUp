@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import ActivityCard from "../../components/HomeComponent/activityCard";
 import GraphCard from "../../components/HomeComponent/graphCard"
 import HomeNavigation from "../../navigation/homeNavigation";
@@ -14,7 +14,7 @@ export default function Home() {
     const dispatch = useDispatch()
 
     return (
-        <>
+        <View style={{height:'95%'}}>
             <ScrollView>
                 <TopHomeBar/>
                 <GraphCard />
@@ -26,6 +26,6 @@ export default function Home() {
                 <GoalCard />
                 }
             </ScrollView>
-        </>
+        </View>
     )
 }
