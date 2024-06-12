@@ -9,9 +9,7 @@ import SignUp from "./loginAndSignUp/signUp";
 export default function Index() {
 
   return (
-    <>
-      <Login /> 
-    </>
+  
     <Provider store={store}>
       <Login />     
     </Provider>

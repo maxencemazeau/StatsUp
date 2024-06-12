@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { View, ScrollView, Image } from 'react-native';
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { Container, Divider, TextField, Button, Typography, Box } from "@mui/material";
 import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
 import axios from 'axios';
@@ -21,7 +21,7 @@ export default function SignUp() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const dispatch = useDispatch();
-    const navigation = useNavigation(); // Use this if you are using React Navigation
+    const router = useRouter(); // Use this for Expo Router navigation
 
     const handleSignUp = async () => {
         if (password !== confirmPassword) {
@@ -41,7 +41,7 @@ export default function SignUp() {
             dispatch(setLogin(response.data));
             
             // Navigate to the home page
-            navigation.navigate('Home'); // Use this if you are using React Navigation
+            router.push('/pages/home/home'); // Adjust the path if needed
 
         } catch (error) {
             console.error(error);
@@ -115,6 +115,7 @@ export default function SignUp() {
                             }}
                             disableElevation
                             onClick={handleSignUp}
+                            
                         >
                             SIGN UP
                         </Button>

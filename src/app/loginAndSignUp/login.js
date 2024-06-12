@@ -20,7 +20,7 @@ export default function Login() {
                     <Container sx={{ position: "absolute", top: "97%", left: 0, right: 0, height: "45%", bgcolor: "white", padding: 2, borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
                         <TextField id="outlined-basic" label="Email" color={"warning"} variant="outlined" margin="normal" sx={{ width: "100%", marginTop: 3, marginBottom: 3 }} />
                         <TextField id="outlined-basic" label="Password" color={"warning"} variant="outlined" margin="normal" sx={{ width: "100%", marginBottom: 5 }} />
-                        <Link href='/pages/home/reduxHomeProvider'>
+                        <Link href='/pages/home/home'>
                             <Button variant={"contained"} sx={{
                                 bgcolor: "#DD7A34", marginTop: 1, width: "100%", height: 50, fontFamily: "Poppins_700Bold", marginBottom: 3,
                                 ':hover': {
