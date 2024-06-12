@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import GoalCard from "../../components/HomeComponent/goalCard";
 import { incrementActivityOffset } from "../../reduxState/offset/activityOffsetSlice";
 import { incrementGoalOffset } from "../../reduxState/offset/goalOffsetSlice";
+import { CircularProgress } from "@mui/material";
 
 export default function Home() {
 
@@ -16,6 +17,7 @@ export default function Home() {
     const dispatch = useDispatch()
     const activityOffset = useSelector((state) => state.activityOffset.value)
     const goalOffset = useSelector((state) => state.goalOffset.value)
+    const [bottomPage, setBottomPage] = useState(false)
 
     const loadMoreData = (event) => {
         if(isCloseToBottom(event.nativeEvent)){
@@ -43,7 +45,7 @@ export default function Home() {
                 {active === "ACTIVITY" ?
                 <ActivityCard activityOffset={activityOffset}/>
                 :
-                <GoalCard />
+                <GoalCard goalOffset={goalOffset}/>
                 }
             </ScrollView>
         </View>

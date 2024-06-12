@@ -7,7 +7,7 @@ const goalSlice = createSlice({
     initialState,
     reducers:{
         incrementGoalOffset: (state) => {
-            state.value += 3
+            state.value += 5
         }
     }
 })

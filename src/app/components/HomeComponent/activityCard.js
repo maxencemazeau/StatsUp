@@ -4,7 +4,7 @@ import Card from "@mui/material/Card"
 import CardContent from "@mui/material/CardContent";
 import Container from "@mui/material/Container"
 import Divider from '@mui/material/Divider';
-import { Typography, Button } from "@mui/material";
+import { Typography, Button, CircularProgress } from "@mui/material";
 import Grid from "@mui/material/Grid"
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins'
@@ -13,6 +13,7 @@ import axios from 'axios'
 import { useSelector, useDispatch } from "react-redux";
 import { noMoreData } from "../../reduxState/offset/hasMoreDataActivity";
 import { useQuery, useQueryClient } from "react-query";
+import HomeCardSkeleton from "../skeleton/homeCardSkeleton";
 
 
 export default function ActivityCard({ activityOffset }) {
@@ -20,36 +21,22 @@ export default function ActivityCard({ activityOffset }) {
     const queryClient= useQueryClient()
     const [timer, setTimer] = useState(false)
     const [timerText, setTimerText] = useState("START")
-    //const [activityList, setActivityList] = useState()
     const [activityListOffset, setActivityListOffset] = useState([])
     const [oldOffset, setOldOffset] = useState()
     const hasNoMoreData = useSelector((state) => state.hasMoreActivityData.value)
     const dispatch = useDispatch()
 
-    const { data : activityList } = useQuery({
+    const { data : activityList, isLoading } = useQuery({
         queryFn: async() => LoadUserActivies(),
         queryKey: ["activityList"],
-        staleTime: Infinity
+        staleTime: Infinity,
     })
 
     const LoadUserActivies = async () => {
-        const response = await axios.get(getActivity, { params: { id: 1, offset: 0 } });
+        const response = await axios.get(getActivity, { params: { id: 1, offset: activityOffset } });
         setOldOffset(activityOffset)
-        //setActivityList(response.data.activity);
         return response.data.activity
     };
-
-    // useEffect(() => {
-        // const LoadUserActivies = async () => {
-        //     const response = await axios.get(getActivity, { params: { id: 1, offset: 0 } });
-        //     //setActivityList(response.data.activity);
-        //     return response.data.activity
-        // };
-
-        // LoadUserActivies();
-
-        //setOldOffset(activityOffset)
-    // }, [])
 
     useEffect(() => {
         if (oldOffset < activityOffset && hasNoMoreData == false) {
@@ -59,6 +46,7 @@ export default function ActivityCard({ activityOffset }) {
 
     const LoadMoreActivity = async () => {
         try {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
             const response = await axios.get(getActivity, { params: { id: 1, offset: activityOffset } });
             setActivityListOffset(prevData => [...prevData, ...response.data.activity])
             dispatch(noMoreData(response.data.noMoreData))
@@ -67,12 +55,11 @@ export default function ActivityCard({ activityOffset }) {
                 ...response.data.activity
             ]);
 
-            console.log(activityList)
         } catch (err) {
             console.log(err)
         }
     }
-    
+
     const [fontsLoad] = useFonts({
         Poppins_400Regular, Poppins_700Bold,
     })
@@ -96,7 +83,7 @@ export default function ActivityCard({ activityOffset }) {
                         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ marginTop: 0.5 }}>
                             <Grid item xs={9} sm={10}>
                                 <Typography variant="h6" sx={{ fontFamily: "Poppins_700Bold" }} gutterBottom>{activities.ActivityName}</Typography>
-                                <Typography variant="body1" sx={{ marginTop: 1, fontFamily: 'Poppins_400Regular' }} gutterBottom>asdsasd</Typography>
+                                <Typography variant="body1" sx={{ marginTop: 1, fontFamily: 'Poppins_400Regular' }} gutterBottom>{activities.GoalName} : 0/{activities.Frequence}</Typography>
                             </Grid>
                             <Grid item xs={2} sm={1}>
                                 <Link href={{ pathname: "/pages/activity/activityDetail", params: { lastPage: "/pages/home/reduxHomeProvider" } }}>
@@ -121,37 +108,7 @@ export default function ActivityCard({ activityOffset }) {
                     </CardContent>
                 </Card>
             ))}
-            {/* {activityListOffset && activityListOffset.map(activitiesOffset => (
-                <Card key={activitiesOffset.ActivityID} variant="outlined" sx={{ marginBottom: 3, borderRadius: 4 }}>
-                    <CardContent>
-                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ marginTop: 0.5 }}>
-                            <Grid item xs={9} sm={10}>
-                                <Typography variant="h6" sx={{ fontFamily: "Poppins_700Bold" }} gutterBottom>{activitiesOffset.ActivityName}</Typography>
-                                <Typography variant="body1" sx={{ marginTop: 1, fontFamily: 'Poppins_400Regular' }} gutterBottom>asdsasd</Typography>
-                            </Grid>
-                            <Grid item xs={2} sm={1}>
-                                <Link href={{ pathname: "/pages/activity/activityDetail", params: { lastPage: "/pages/home/reduxHomeProvider" } }}>
-                                    <Button sx={{ bgcolor: "#DD7A34", borderRadius: 25, height: 50 }}>
-                                        <ArrowForwardIosIcon sx={{ color: "white" }} />
-                                    </Button>
-                                </Link>
-                            </Grid>
-                        </Grid>
-                        {activitiesOffset.Timer &&
-                            <>
-                                <Divider></Divider>
-                                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ marginTop: 0.5 }}>
-                                    <Grid item xs={9}>
-                                        <Typography variant="body1" color={timer == true ? 'red' : 'green'} sx={{ fontFamily: "Poppins_700Bold" }} onClick={() => changeTimer()}>{timerText}</Typography>
-                                    </Grid>
-                                    <Grid item xs={2}>
-                                        <Typography variant="body1" sx={{ fontFamily: "Poppins_400Regular" }}>10:00:00</Typography>
-                                    </Grid>
-                                </Grid>
-                            </>}
-                    </CardContent>
-                </Card>
-            ))} */}
+            <HomeCardSkeleton />
         </Container>
     )
 
