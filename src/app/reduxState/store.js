@@ -12,6 +12,12 @@ export const store = configureStore({
         goalOffset: goalOffsetReducer,
         hasMoreActivityData : hasMoreActivityDataReducer,
         hasMoreGoalData : hasMoreGoalDataReducer
-    },
-})
+import navigationReducer from "./navigation/navigationSlice";
+import loginReducer from './authentication/loginSlice';
 
+export const store = configureStore({
+    reducer: {
+        navigation: navigationReducer,
+        login: loginReducer,
+    },
+});
