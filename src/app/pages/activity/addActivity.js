@@ -128,7 +128,6 @@ export default function AddActivity({state, setModal}) {
                 </Container>
                 </SwipeableDrawer>
             </ScrollView>
-            <BottomMenu />
         </>
     )
 }
