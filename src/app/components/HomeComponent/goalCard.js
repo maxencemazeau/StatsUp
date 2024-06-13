@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react"
-import Card from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent";
-import Container from "@mui/material/Container"
 import { Link } from "expo-router"
-import { Typography, Button } from "@mui/material";
+import { Typography, Button, Card, Container, CardContent } from "@mui/material";
 import Grid from "@mui/material/Grid"
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { getUserGoals } from "../../axiosPath/axiosPath"
 import { useQuery, useQueryClient } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios'
+import { isGoalLoading } from "../../reduxState/offset/goalLoadingSlice";
 import { noMoreGoalData } from "../../reduxState/offset/hasMoreDataGoal";
+import HomeCardSkeleton from "../skeleton/homeCardSkeleton";
 
 export default function GoalCard({goalOffset}) {
 
     const queryClient= useQueryClient()
     const [oldOffset, setOldOffset] = useState(0)
+    const [isMoreDataLoading, setIsMoreDataLoading] = useState(false)
     const hasNoMoreData = useSelector((state) => state.hasMoreGoalData.value)
     const dispatch = useDispatch()
     
-    const { data : goalList, isLoading } = useQuery({
+    const { data : goalList } = useQuery({
         queryFn: async() => LoadUserGoals(),
         queryKey: ["goalList"],
         staleTime: Infinity
@@ -32,19 +32,24 @@ export default function GoalCard({goalOffset}) {
     };
 
     useEffect(() => {
-        if (oldOffset < goalOffset && hasNoMoreData == false) {
+        if (oldOffset < goalOffset && !hasNoMoreData && isMoreDataLoading == false) {
             LoadMoreGoal()
         }
     }, [goalOffset])
 
     const LoadMoreGoal = async () => {
         try {
+            dispatch(isGoalLoading(true))
+            setIsMoreDataLoading(true)
+            //await new Promise((resolve) => setTimeout(resolve, 1000))
             const response = await axios.get(getUserGoals, { params: { id: 1, offset: goalOffset } });
             dispatch(noMoreGoalData(response.data.noMoreData))
             queryClient.setQueryData("goalList", oldData => [
                 ...oldData,
                 ...response.data.goal
             ]);
+            setIsMoreDataLoading(false)
+            dispatch(isGoalLoading(false))
 
         } catch (err) {
             console.log(err)
@@ -72,6 +77,7 @@ export default function GoalCard({goalOffset}) {
                 </CardContent>
             </Card>
             ))}
+            {isMoreDataLoading && <HomeCardSkeleton/> }
         </Container>
     )
 

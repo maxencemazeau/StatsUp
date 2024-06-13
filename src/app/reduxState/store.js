@@ -5,6 +5,8 @@ import goalOffsetReducer from "./offset/goalOffsetSlice";
 import hasMoreActivityDataReducer from "./offset/hasMoreDataActivity";
 import hasMoreGoalDataReducer from "./offset/hasMoreDataGoal";
 import loginReducer from './authentication/loginSlice';
+import isActivityLoadingReducer from "./offset/activityLoadingSlice";
+import isGoalLoadingReducer from "./offset/goalLoadingSlice";
 
 export const store = configureStore({
     reducer: {
@@ -14,5 +16,9 @@ export const store = configureStore({
         hasMoreActivityData : hasMoreActivityDataReducer,
         hasMoreGoalData : hasMoreGoalDataReducer,
         login: loginReducer,
+        isActivityLoading : isActivityLoadingReducer,
+        isGoalLoading : isGoalLoadingReducer
+
     },
 });
+

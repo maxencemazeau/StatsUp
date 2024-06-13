@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react"
 import { Link } from "expo-router"
-import Card from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent";
-import Container from "@mui/material/Container"
-import Divider from '@mui/material/Divider';
-import { Typography, Button, CircularProgress } from "@mui/material";
+import { Typography, Button, Card, Container, CardContent, Divider } from "@mui/material";
 import Grid from "@mui/material/Grid"
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins'
 import { getActivity } from "../../axiosPath/axiosPath";
 import axios from 'axios'
 import { useSelector, useDispatch } from "react-redux";
-import { noMoreData } from "../../reduxState/offset/hasMoreDataActivity";
+import { noMoreActivityData } from "../../reduxState/offset/hasMoreDataActivity";
+import { isActivityLoading } from "../../reduxState/offset/activityLoadingSlice";
 import { useQuery, useQueryClient } from "react-query";
 import HomeCardSkeleton from "../skeleton/homeCardSkeleton";
 
@@ -21,40 +18,42 @@ export default function ActivityCard({ activityOffset }) {
     const queryClient= useQueryClient()
     const [timer, setTimer] = useState(false)
     const [timerText, setTimerText] = useState("START")
-    const [activityListOffset, setActivityListOffset] = useState([])
+    const [isMoreDataLoading, setIsMoreDataLoading] = useState(false)
     const [oldOffset, setOldOffset] = useState()
     const hasNoMoreData = useSelector((state) => state.hasMoreActivityData.value)
     const dispatch = useDispatch()
 
-    const { data : activityList, isLoading } = useQuery({
+    const { data : activityList } = useQuery({
         queryFn: async() => LoadUserActivies(),
         queryKey: ["activityList"],
         staleTime: Infinity,
     })
 
     const LoadUserActivies = async () => {
-        const response = await axios.get(getActivity, { params: { id: 1, offset: activityOffset } });
+        const response = await axios.get(getActivity, { params: { id: 1, offset: 0 } });
         setOldOffset(activityOffset)
         return response.data.activity
     };
 
     useEffect(() => {
-        if (oldOffset < activityOffset && hasNoMoreData == false) {
+        if (oldOffset < activityOffset && !hasNoMoreData && isMoreDataLoading == false) {
             LoadMoreActivity()
         }
     }, [activityOffset])
 
     const LoadMoreActivity = async () => {
         try {
-            await new Promise((resolve) => setTimeout(resolve, 1000))
+            dispatch(isActivityLoading(true))
+            setIsMoreDataLoading(true)
+            //await new Promise((resolve) => setTimeout(resolve, 1000))
             const response = await axios.get(getActivity, { params: { id: 1, offset: activityOffset } });
-            setActivityListOffset(prevData => [...prevData, ...response.data.activity])
-            dispatch(noMoreData(response.data.noMoreData))
+            dispatch(noMoreActivityData(response.data.noMoreData))
             queryClient.setQueryData("activityList", oldData => [
                 ...oldData,
                 ...response.data.activity
             ]);
-
+            setIsMoreDataLoading(false)
+            dispatch(isActivityLoading(false))
         } catch (err) {
             console.log(err)
         }
@@ -108,7 +107,7 @@ export default function ActivityCard({ activityOffset }) {
                     </CardContent>
                 </Card>
             ))}
-            <HomeCardSkeleton />
+            {isMoreDataLoading && <HomeCardSkeleton /> }
         </Container>
     )
 

@@ -9,7 +9,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import GoalCard from "../../components/HomeComponent/goalCard";
 import { incrementActivityOffset } from "../../reduxState/offset/activityOffsetSlice";
 import { incrementGoalOffset } from "../../reduxState/offset/goalOffsetSlice";
-import { CircularProgress } from "@mui/material";
 
 export default function Home() {
 
@@ -17,13 +16,21 @@ export default function Home() {
     const dispatch = useDispatch()
     const activityOffset = useSelector((state) => state.activityOffset.value)
     const goalOffset = useSelector((state) => state.goalOffset.value)
-    const [bottomPage, setBottomPage] = useState(false)
+    const hasNoMoreActivityData = useSelector((state) => state.hasMoreActivityData.value)
+    const hasNoMoreGoalData = useSelector((state) => state.hasMoreGoalData.value)
+    const isActivityLoading = useSelector((state)=> state.isActivityLoading.value)
+    const isGoalLoading = useSelector((state)=> state.isGoalLoading.value)
 
-    const loadMoreData = (event) => {
+    const loadMoreData = async(event) => {
+        await new Promise((resolve) => setTimeout(resolve, 300))
         if(isCloseToBottom(event.nativeEvent)){
-            if(active === "ACTIVITY") {
+            if(active === "ACTIVITY" && !hasNoMoreActivityData && !isActivityLoading) {
+                console.log('ici : ' + activityOffset)
                 dispatch(incrementActivityOffset())
-            } else {
+            }
+
+            if (active !== "ACTIVITY" && !hasNoMoreGoalData && !isGoalLoading) {
+                console.log('la :' + goalOffset)
                 dispatch(incrementGoalOffset())
             }
         }
