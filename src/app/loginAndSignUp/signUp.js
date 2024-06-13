@@ -9,7 +9,6 @@ import axios from 'axios';
 import { userSignUp } from '../axiosPath/axiosPath';
 import { useDispatch } from 'react-redux';
 import { setLogin } from '../reduxState/authentication/loginSlice';
-import { useNavigation } from '@react-navigation/native'; // Use this if you are using React Navigation
 
 export default function SignUp() {
     const [fontsLoad] = useFonts({
