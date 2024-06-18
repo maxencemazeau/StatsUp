@@ -9,8 +9,8 @@ export default function HomeCardSkeleton() {
                 <CardContent>
                     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ marginTop: 0.5 }}>
                         <Grid item xs={9} sm={10}>
-                            <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-                            <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
+                            <Skeleton variant="text" sx={{ fontSize: '2rem', width: 100 }} />
+                            <Skeleton variant="text" sx={{ fontSize: '1rem', width: 250 }} />
                         </Grid>
                         <Grid item xs={2} sm={1}>
                             <Skeleton variant="circular" width={60} height={50} />
@@ -22,8 +22,8 @@ export default function HomeCardSkeleton() {
                 <CardContent>
                     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ marginTop: 0.5 }}>
                         <Grid item xs={9} sm={10}>
-                            <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-                            <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
+                            <Skeleton variant="text" sx={{ fontSize: '2rem', width: 100 }} />
+                            <Skeleton variant="text" sx={{ fontSize: '1rem', width: 250 }} />
                         </Grid>
                         <Grid item xs={2} sm={1}>
                             <Skeleton variant="circular" width={60} height={50} />
@@ -35,8 +35,8 @@ export default function HomeCardSkeleton() {
                 <CardContent>
                     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ marginTop: 0.5 }}>
                         <Grid item xs={9} sm={10}>
-                            <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-                            <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
+                            <Skeleton variant="text" sx={{ fontSize: '2rem', width: 100 }} />
+                            <Skeleton variant="text" sx={{ fontSize: '1rem', width: 250 }} />
                         </Grid>
                         <Grid item xs={2} sm={1}>
                             <Skeleton variant="circular" width={60} height={50} />

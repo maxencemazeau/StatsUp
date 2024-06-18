@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import GoalCard from "../../components/HomeComponent/goalCard";
 import { incrementActivityOffset } from "../../reduxState/offset/activityOffsetSlice";
 import { incrementGoalOffset } from "../../reduxState/offset/goalOffsetSlice";
+import { loadingError } from "../../reduxState/error/loadingErrorSlice";
 
 export default function Home() {
 
@@ -20,17 +21,16 @@ export default function Home() {
     const hasNoMoreGoalData = useSelector((state) => state.hasMoreGoalData.value)
     const isActivityLoading = useSelector((state)=> state.isActivityLoading.value)
     const isGoalLoading = useSelector((state)=> state.isGoalLoading.value)
+    const loadingError = useSelector((state) => state.loadingError.value)
 
     const loadMoreData = async(event) => {
         await new Promise((resolve) => setTimeout(resolve, 300))
         if(isCloseToBottom(event.nativeEvent)){
-            if(active === "ACTIVITY" && !hasNoMoreActivityData && !isActivityLoading) {
-                console.log('ici : ' + activityOffset)
+            if(active === "ACTIVITY" && !hasNoMoreActivityData && !isActivityLoading && loadingError == false) {
                 dispatch(incrementActivityOffset())
             }
 
-            if (active !== "ACTIVITY" && !hasNoMoreGoalData && !isGoalLoading) {
-                console.log('la :' + goalOffset)
+            if (active !== "ACTIVITY" && !hasNoMoreGoalData && !isGoalLoading && loadingError == false) {
                 dispatch(incrementGoalOffset())
             }
         }

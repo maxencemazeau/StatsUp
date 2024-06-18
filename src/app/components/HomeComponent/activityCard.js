@@ -11,19 +11,24 @@ import { noMoreActivityData } from "../../reduxState/offset/hasMoreDataActivity"
 import { isActivityLoading } from "../../reduxState/offset/activityLoadingSlice";
 import { useQuery, useQueryClient } from "react-query";
 import HomeCardSkeleton from "../skeleton/homeCardSkeleton";
-
+import PopUpAxiosError from "../error/popUpAxiosError";
+import { loadingError } from "../../reduxState/error/loadingErrorSlice";
+import { useLoadMoreActivity } from "../../hooks/apiCall/loadMoreActivity";
 
 export default function ActivityCard({ activityOffset }) {
 
     const queryClient= useQueryClient()
     const [timer, setTimer] = useState(false)
     const [timerText, setTimerText] = useState("START")
-    const [isMoreDataLoading, setIsMoreDataLoading] = useState(false)
+    const isMoreDataLoading = useSelector((state) => state.isActivityLoading.value)
+    const errorState = useSelector((state) => state.loadingError.value);
     const [oldOffset, setOldOffset] = useState()
     const hasNoMoreData = useSelector((state) => state.hasMoreActivityData.value)
     const dispatch = useDispatch()
 
-    const { data : activityList } = useQuery({
+    useLoadMoreActivity(activityOffset)
+
+    const { data : activityList, isLoading } = useQuery({
         queryFn: async() => LoadUserActivies(),
         queryKey: ["activityList"],
         staleTime: Infinity,
@@ -35,29 +40,6 @@ export default function ActivityCard({ activityOffset }) {
         return response.data.activity
     };
 
-    useEffect(() => {
-        if (oldOffset < activityOffset && !hasNoMoreData && isMoreDataLoading == false) {
-            LoadMoreActivity()
-        }
-    }, [activityOffset])
-
-    const LoadMoreActivity = async () => {
-        try {
-            dispatch(isActivityLoading(true))
-            setIsMoreDataLoading(true)
-            //await new Promise((resolve) => setTimeout(resolve, 1000))
-            const response = await axios.get(getActivity, { params: { id: 1, offset: activityOffset } });
-            dispatch(noMoreActivityData(response.data.noMoreData))
-            queryClient.setQueryData("activityList", oldData => [
-                ...oldData,
-                ...response.data.activity
-            ]);
-            setIsMoreDataLoading(false)
-            dispatch(isActivityLoading(false))
-        } catch (err) {
-            console.log(err)
-        }
-    }
 
     const [fontsLoad] = useFonts({
         Poppins_400Regular, Poppins_700Bold,
@@ -108,6 +90,7 @@ export default function ActivityCard({ activityOffset }) {
                 </Card>
             ))}
             {isMoreDataLoading && <HomeCardSkeleton /> }
+            {errorState && <PopUpAxiosError/>}
         </Container>
     )
 

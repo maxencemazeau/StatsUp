@@ -10,13 +10,16 @@ import axios from 'axios'
 import { isGoalLoading } from "../../reduxState/offset/goalLoadingSlice";
 import { noMoreGoalData } from "../../reduxState/offset/hasMoreDataGoal";
 import HomeCardSkeleton from "../skeleton/homeCardSkeleton";
+import { loadingError } from "../../reduxState/error/loadingErrorSlice";
+import PopUpAxiosError from "../error/popUpAxiosError";
 
 export default function GoalCard({goalOffset}) {
 
     const queryClient= useQueryClient()
     const [oldOffset, setOldOffset] = useState(0)
-    const [isMoreDataLoading, setIsMoreDataLoading] = useState(false)
     const hasNoMoreData = useSelector((state) => state.hasMoreGoalData.value)
+    const isMoreDataLoading = useSelector((state) => state.isGoalLoading.value)
+    const errorState = useSelector((state) => state.loadingError.value);
     const dispatch = useDispatch()
     
     const { data : goalList } = useQuery({
@@ -40,19 +43,19 @@ export default function GoalCard({goalOffset}) {
     const LoadMoreGoal = async () => {
         try {
             dispatch(isGoalLoading(true))
-            setIsMoreDataLoading(true)
-            //await new Promise((resolve) => setTimeout(resolve, 1000))
+            await new Promise((resolve) => setTimeout(resolve, 1000))
             const response = await axios.get(getUserGoals, { params: { id: 1, offset: goalOffset } });
             dispatch(noMoreGoalData(response.data.noMoreData))
             queryClient.setQueryData("goalList", oldData => [
                 ...oldData,
                 ...response.data.goal
             ]);
-            setIsMoreDataLoading(false)
             dispatch(isGoalLoading(false))
 
         } catch (err) {
             console.log(err)
+            dispatch(isGoalLoading(false))
+            dispatch(loadingError(true))
         }
     }
 
@@ -78,6 +81,7 @@ export default function GoalCard({goalOffset}) {
             </Card>
             ))}
             {isMoreDataLoading && <HomeCardSkeleton/> }
+            {errorState && <PopUpAxiosError/>}
         </Container>
     )
 
