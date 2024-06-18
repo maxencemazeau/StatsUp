@@ -6,12 +6,12 @@ const hasMoreActivityDataSlice = createSlice({
     name:"hasMoreActivityData",
     initialState,
     reducers:{
-        noMoreData: (state, action) => {
+        noMoreActivityData: (state, action) => {
             state.value = action.payload
         }
     }
 })
 
-export const { noMoreData } = hasMoreActivityDataSlice.actions
+export const { noMoreActivityData } = hasMoreActivityDataSlice.actions
 
 export default hasMoreActivityDataSlice.reducer;
