@@ -1,26 +1,21 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { Link } from "expo-router"
 import { Typography, Button, Card, Container, CardContent } from "@mui/material";
 import Grid from "@mui/material/Grid"
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { getUserGoals } from "../../axiosPath/axiosPath"
-import { useQuery, useQueryClient } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
+import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import axios from 'axios'
-import { isGoalLoading } from "../../reduxState/offset/goalLoadingSlice";
-import { noMoreGoalData } from "../../reduxState/offset/hasMoreDataGoal";
 import HomeCardSkeleton from "../skeleton/homeCardSkeleton";
-import { loadingError } from "../../reduxState/error/loadingErrorSlice";
 import PopUpAxiosError from "../error/popUpAxiosError";
+import { useLoadMoreGoal } from "../../hooks/apiCall/goal/loadMoreGoal";
 
 export default function GoalCard({goalOffset}) {
 
-    const queryClient= useQueryClient()
-    const [oldOffset, setOldOffset] = useState(0)
-    const hasNoMoreData = useSelector((state) => state.hasMoreGoalData.value)
     const isMoreDataLoading = useSelector((state) => state.isGoalLoading.value)
     const errorState = useSelector((state) => state.loadingError.value);
-    const dispatch = useDispatch()
+    useLoadMoreGoal(goalOffset)
     
     const { data : goalList } = useQuery({
         queryFn: async() => LoadUserGoals(),
@@ -30,34 +25,9 @@ export default function GoalCard({goalOffset}) {
  
     const LoadUserGoals = async () => {
         const response = await axios.get(getUserGoals, { params: { id: 1, offset : 0} });
-        setOldOffset(goalOffset)
         return response.data.goal
     };
 
-    useEffect(() => {
-        if (oldOffset < goalOffset && !hasNoMoreData && isMoreDataLoading == false) {
-            LoadMoreGoal()
-        }
-    }, [goalOffset])
-
-    const LoadMoreGoal = async () => {
-        try {
-            dispatch(isGoalLoading(true))
-            await new Promise((resolve) => setTimeout(resolve, 1000))
-            const response = await axios.get(getUserGoals, { params: { id: 1, offset: goalOffset } });
-            dispatch(noMoreGoalData(response.data.noMoreData))
-            queryClient.setQueryData("goalList", oldData => [
-                ...oldData,
-                ...response.data.goal
-            ]);
-            dispatch(isGoalLoading(false))
-
-        } catch (err) {
-            console.log(err)
-            dispatch(isGoalLoading(false))
-            dispatch(loadingError(true))
-        }
-    }
 
     return (
         <Container maxWidth="md" sx={{ paddingRight: 2, paddingLeft: 2, paddingTop: 2 }}>

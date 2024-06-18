@@ -6,25 +6,18 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins'
 import { getActivity } from "../../axiosPath/axiosPath";
 import axios from 'axios'
-import { useSelector, useDispatch } from "react-redux";
-import { noMoreActivityData } from "../../reduxState/offset/hasMoreDataActivity";
-import { isActivityLoading } from "../../reduxState/offset/activityLoadingSlice";
-import { useQuery, useQueryClient } from "react-query";
+import { useSelector } from "react-redux";
+import { useQuery } from "react-query";
 import HomeCardSkeleton from "../skeleton/homeCardSkeleton";
 import PopUpAxiosError from "../error/popUpAxiosError";
-import { loadingError } from "../../reduxState/error/loadingErrorSlice";
-import { useLoadMoreActivity } from "../../hooks/apiCall/loadMoreActivity";
+import { useLoadMoreActivity } from "../../hooks/apiCall/activity/loadMoreActivity";
 
 export default function ActivityCard({ activityOffset }) {
 
-    const queryClient= useQueryClient()
     const [timer, setTimer] = useState(false)
     const [timerText, setTimerText] = useState("START")
     const isMoreDataLoading = useSelector((state) => state.isActivityLoading.value)
     const errorState = useSelector((state) => state.loadingError.value);
-    const [oldOffset, setOldOffset] = useState()
-    const hasNoMoreData = useSelector((state) => state.hasMoreActivityData.value)
-    const dispatch = useDispatch()
 
     useLoadMoreActivity(activityOffset)
 
@@ -36,14 +29,8 @@ export default function ActivityCard({ activityOffset }) {
 
     const LoadUserActivies = async () => {
         const response = await axios.get(getActivity, { params: { id: 1, offset: 0 } });
-        setOldOffset(activityOffset)
         return response.data.activity
     };
-
-
-    const [fontsLoad] = useFonts({
-        Poppins_400Regular, Poppins_700Bold,
-    })
 
     const changeTimer = () => {
         if (timer == false) {

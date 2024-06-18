@@ -1,10 +1,10 @@
 import React, { useEffect } from "react"
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { isActivityLoading } from '../../reduxState/offset/activityLoadingSlice';
-import { noMoreActivityData } from '../../reduxState/offset/hasMoreDataActivity';
-import { loadingError } from '../../reduxState/error/loadingErrorSlice';
-import { getActivity } from "../../axiosPath/axiosPath";
+import { isActivityLoading } from '../../../reduxState/offset/activityLoadingSlice';
+import { noMoreActivityData } from '../../../reduxState/offset/hasMoreDataActivity';
+import { loadingError } from '../../../reduxState/error/loadingErrorSlice';
+import { getActivity } from "../../../axiosPath/axiosPath";
 import { useQuery, useQueryClient } from 'react-query';
 
 export const  useLoadMoreActivity = async(activityOffset) =>{
@@ -19,7 +19,6 @@ export const  useLoadMoreActivity = async(activityOffset) =>{
         const fetchMoreData = async() =>{
             try {
                 dispatch(isActivityLoading(true))
-                await new Promise((resolve) => setTimeout(resolve, 1000))
                 const response = await axios.get(getActivity, { params: { id: 1, offset: activityOffset } });
                 dispatch(noMoreActivityData(response.data.noMoreData))
                 queryClient.setQueryData("activityList", oldData => [
