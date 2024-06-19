@@ -8,6 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 import Divider from '@mui/material/Divider';
 import { Link } from "expo-router"
 import AddActivity from "../pages/activity/addActivity";
+import CreateActivityAndGoal from "../pages/swipeableDrawer/createActivityAndGoal";
 
 
 export default function BottomMenu() {
@@ -37,7 +38,7 @@ export default function BottomMenu() {
             </BottomNavigation>
         </View>
         
-        {state && <AddActivity state={state} setModal={setModal} /> }
+        {state && <CreateActivityAndGoal state={state} setModal={setModal} /> }
 
     </>
     )
