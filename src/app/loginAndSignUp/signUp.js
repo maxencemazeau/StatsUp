@@ -35,7 +35,13 @@ export default function SignUp() {
                 username,
                 password
             });
-            console.log(response.data);
+
+            const data = response.data;
+            
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
 
             // Dispatch action to update authentication status
             dispatch(setLogin(response.data));
