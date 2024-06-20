@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { Link } from "expo-router"
 import { Typography, Button, Card, Container, CardContent, Divider } from "@mui/material";
 import Grid from "@mui/material/Grid"
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins'
 import { getActivity } from "../../axiosPath/axiosPath";
 import axios from 'axios'
 import { useSelector } from "react-redux";

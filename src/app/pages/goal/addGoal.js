@@ -8,10 +8,8 @@ import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-font
 import Checkbox from "@mui/material/Checkbox"
 import Select from "@mui/material/Select"; import MenuItem from "@mui/material/MenuItem"
 import InputLabel from "@mui/material/InputLabel"; import FormControl from "@mui/material/FormControl"
-import axios from "axios"
-import { addActivity } from "../../axiosPath/axiosPath"
 
-export default function AddActivity() {
+export default function AddGoal() {
 
     const goal = [
         {
@@ -28,10 +26,7 @@ export default function AddActivity() {
     const [activateGoal, setActivateGoal] = useState(false)
     const [goalName, setGoalName] = useState(false)
     const [timerOption, setTimerOption] = useState(false)
-    const [newActivity, setNewActivity] = useState({
-        activityName: "",
-        userId : 0
-    })
+
     const changeActive = () => {
         setActivateGoal(prevState => !prevState)
     }
@@ -50,11 +45,6 @@ export default function AddActivity() {
         }
     }
 
-    const addNewActivity = async() => {
-        console.log(newActivity)
-        const response = await axios.post(addActivity, {params :{ ActivityName: newActivity.activityName, UserId : 1 }})
-    }
-
     const [fontsLoad] = useFonts({
         Poppins_400Regular, Poppins_700Bold,
     })
@@ -62,20 +52,14 @@ export default function AddActivity() {
     return (
         <>
             <View>
-                <Typography variant="h6" sx={{ fontFamily: "Poppins_700Bold" }}>Create a new activity</Typography>
-                <TextField id="outlined-basic" label="Name" color={"warning"} variant="outlined" margin="normal" onChange={(e) => setNewActivity({activityName : e.target.value})}/>
+                <Typography variant="h6" sx={{ fontFamily: "Poppins_700Bold" }}>Create a new goal</Typography>
+                <TextField id="outlined-basic" label="Name" color={"warning"} variant="outlined" margin="normal" />
                 <Grid direction={"row"} container sx={{ paddingTop: 1 }}>
                     <Grid item xs={6} sx={{ marginBottom: 1 }}>
-                        <Typography>Timer options ?</Typography>
+                        <Typography>Link to an existing activity ?</Typography>
                     </Grid>
                     <Grid item xs={2}>
-                        <Checkbox sx={{ padding: 0 }} onChange={changeTimerOption} />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Typography>Link this activity to a goal ?</Typography>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Checkbox sx={{ padding: 0 }} onChange={changeActive} />
+                        <Checkbox sx={{ padding: 0, marginLeft:2 }} onChange={changeTimerOption} />
                     </Grid>
                 </Grid>
                 {activateGoal &&
@@ -108,7 +92,7 @@ export default function AddActivity() {
                         </Grid>
                     </>
                 }
-                <Button variant={"contained"} sx={{ bgcolor: "#DD7A34", marginTop: 1, height: 50 }} color={"warning"} disableElevation onClick={addNewActivity}>Save</Button>
+                <Button variant={"contained"} sx={{ bgcolor: "#DD7A34", marginTop: 1, height: 50 }} color={"warning"} disableElevation>Save</Button>
             </View>
         </>
     )
