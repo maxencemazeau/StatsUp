@@ -10,6 +10,8 @@ import Select from "@mui/material/Select"; import MenuItem from "@mui/material/M
 import InputLabel from "@mui/material/InputLabel"; import FormControl from "@mui/material/FormControl"
 import axios from "axios"
 import { addActivity } from "../../axiosPath/axiosPath"
+import { timeFrame } from "../../data/timeFrame"
+import { useForm, SubmitHandler  } from "react-hook-form"
 
 export default function AddActivity() {
 
@@ -30,29 +32,45 @@ export default function AddActivity() {
     const [timerOption, setTimerOption] = useState(false)
     const [newActivity, setNewActivity] = useState({
         activityName: "",
-        userId : 0
+        timer: false,
+        goalId: 0,
+        timeFrame : 0,
+        frequency : 0,
+        userId : 0,
+        createNewGoal : false
     })
+
+    const { register, handleSubmit, formState: { errors } } = useForm()
+    const onSubmit = (data) => console.log(data)
+
     const changeActive = () => {
         setActivateGoal(prevState => !prevState)
     }
 
-    const changeTimerOption = () => {
+    const changeTimerOption = (e) => {
         setTimerOption(prevState => !prevState)
+        setNewActivity(prevState => ({...prevState, timer: e.target.value}))
     }
     const [age, setAge] = React.useState('');
 
-    const handleChange = (event) => {
-        setAge(event.target.value);
-        if (event.target.value == 0) {
+    const handleChange = (e) => {
+        setAge(e.target.value);
+        if (e.target.value == 0) {
             setGoalName(true)
+            setNewActivity(prevState =>({...prevState, goalId: 0, createNewGoal: true}))
         } else {
             setGoalName(false)
+            setNewActivity(prevState =>({...prevState, goalId: e.target.value, createNewGoal:false}))
         }
     }
 
     const addNewActivity = async() => {
         console.log(newActivity)
-        const response = await axios.post(addActivity, {params :{ ActivityName: newActivity.activityName, UserId : 1 }})
+        const response = await axios.post(addActivity, {params :{ ActivityName: newActivity.activityName, Timer: newActivity.timer, GoalsId: newActivity.goalId, CreateNewGoal: newActivity.createNewGoal, UserId : 1 }})
+    }
+
+    const handleTimeFrameChange = () =>{
+        setNewActivity(prevState => ({...prevState, timeFrame: e.target.value}))
     }
 
     const [fontsLoad] = useFonts({
@@ -63,7 +81,11 @@ export default function AddActivity() {
         <>
             <View>
                 <Typography variant="h6" sx={{ fontFamily: "Poppins_700Bold" }}>Create a new activity</Typography>
-                <TextField id="outlined-basic" label="Name" color={"warning"} variant="outlined" margin="normal" onChange={(e) => setNewActivity({activityName : e.target.value})}/>
+                <form onSubmit={handleSubmit(onSubmit)}>
+
+                    
+                </form>
+                <TextField id="outlined-basic" label="Name" color={"warning"} variant="outlined" margin="normal" onChange={(e) => setNewActivity(prevState => ({...prevState, activityName : e.target.value}))}/>
                 <Grid direction={"row"} container sx={{ paddingTop: 1 }}>
                     <Grid item xs={6} sx={{ marginBottom: 1 }}>
                         <Typography>Timer options ?</Typography>
@@ -100,7 +122,21 @@ export default function AddActivity() {
                         {goalName && <TextField id="outlined-basic" label="Name" color={"warning"} variant="outlined" margin="normal" />}
                         <Grid container spacing={3}>
                             <Grid item xs={6}>
-                                <TextField id="outlined-basic" label="Time frame" variant="outlined" color={"warning"} margin="normal" />
+                            <FormControl fullWidth sx={{ marginTop: 1 }}>
+                            <InputLabel id="demo-simple-select-label" color={"warning"}>Time frame</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={age}
+                                label="Time frame"
+                                color={"warning"}
+                                onChange={handleTimeFrameChange}
+                            >
+                                {timeFrame.map(timeFrame =>
+                                    <MenuItem key={timeFrame.id} value={timeFrame.frame}>{timeFrame.frame}</MenuItem>
+                                )}
+                            </Select>
+                        </FormControl>
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField id="outlined-basic" label="Frequency" variant="outlined" color={"warning"} margin="normal" />
