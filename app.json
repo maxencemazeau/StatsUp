@@ -21,14 +21,23 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.golami.StatsUp"
     },
     "web": {
       "favicon": "./assets/favicon.png",
-      "bundler" : "metro"
+      "bundler": "metro"
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "cf069dfd-a2eb-4427-8ad6-63d5920b78ac"
+      }
+    }
   }
 }
